@@ -13,6 +13,14 @@ struct Coordinate: Hashable {
     let row: Int
 }
 
+enum IterationEvent {
+    case dead
+    case deathByUnderpopulation(aliveNeighborsCount: Int)
+    case survivial(aliveNeighborsCount: Int)
+    case deathByOverpopulation(aliveNeighborsCount: Int)
+    case reproduction
+}
+
 typealias Cells = [Coordinate : Bool]
 
 struct Rules {
@@ -44,31 +52,73 @@ struct CellBoard {
         }
     }
     
-    init(iterate board: CellBoard) {
+    func iterate() -> (newBoard: CellBoard, events: [IterationEvent]) {
         
-        numberOfColumns = board.numberOfColumns
-        numberOfRows = board.numberOfRows
+        var board = CellBoard(columns: numberOfColumns, rows: numberOfRows)
+        var events = [IterationEvent]()
         
-        for cell in board.cells {
-            
-            let coordinate = cell.key
-            var isAlive = cell.value
-            
-            let aliveNeighborsCount = board.aliveNeigbors(of: coordinate)
-            
-            if isAlive && aliveNeighborsCount < Rules.survivalMinCount {
-                isAlive = false // Underpopulation
+        for column in 0..<numberOfColumns {
+            for row in 0..<numberOfRows {
+                let coordinate = Coordinate(column: column, row: row)
+                let results = toggle(at: coordinate)
+                board.cells[coordinate] = results.newStatus
+                events.append(results.event)
             }
-            else if isAlive && aliveNeighborsCount > Rules.survivalMaxCount {
-                isAlive = false // Overpopiulation
-            }
-            else if !isAlive && aliveNeighborsCount == Rules.reproductionCount {
-                isAlive = true // Reproduction
-            }
-            
-            cells[coordinate] = isAlive
         }
+        
+        return (board, events)
     }
+    
+    func toggle(at coordinate: Coordinate) -> (newStatus: Bool, event: IterationEvent) {
+        
+        var isAlive = cells[coordinate] ?? false
+        let aliveNeighborsCount = aliveNeigbors(of: coordinate)
+        var event: IterationEvent = .dead
+        
+        if isAlive && aliveNeighborsCount < Rules.survivalMinCount {
+            isAlive = false // Underpopulation
+            event = .deathByUnderpopulation(aliveNeighborsCount: aliveNeighborsCount)
+        }
+        else if isAlive && aliveNeighborsCount > Rules.survivalMaxCount {
+            isAlive = false // Overpopulation
+            event = .deathByOverpopulation(aliveNeighborsCount: aliveNeighborsCount)
+        }
+        else if !isAlive && aliveNeighborsCount == Rules.reproductionCount {
+            isAlive = true // Reproduction
+            event = .reproduction
+        }
+        else if isAlive {
+            event = .survivial(aliveNeighborsCount: aliveNeighborsCount) // Survival
+        }
+        
+        return (isAlive, event)
+    }
+    
+//    init(iterate board: CellBoard) {
+//
+//        numberOfColumns = board.numberOfColumns
+//        numberOfRows = board.numberOfRows
+//
+//        for cell in board.cells {
+//
+//            let coordinate = cell.key
+//            var isAlive = cell.value
+//
+//            let aliveNeighborsCount = board.aliveNeigbors(of: coordinate)
+//
+//            if isAlive && aliveNeighborsCount < Rules.survivalMinCount {
+//                isAlive = false // Underpopulation
+//            }
+//            else if isAlive && aliveNeighborsCount > Rules.survivalMaxCount {
+//                isAlive = false // Overpopiulation
+//            }
+//            else if !isAlive && aliveNeighborsCount == Rules.reproductionCount {
+//                isAlive = true // Reproduction
+//            }
+//
+//            cells[coordinate] = isAlive
+//        }
+//    }
     
     mutating func reset() {
         for row in 0..<numberOfRows {

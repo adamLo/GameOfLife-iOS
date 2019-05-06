@@ -148,8 +148,10 @@ class GameOfLifeTests: XCTestCase {
         let board0 = CellBoard(columns: 3, rows: 3)
         XCTAssertEqual(board0.aliveCellCount, 0)
         
-        let board1 = CellBoard(iterate: board0)
+        let results = board0.iterate()
+        let board1 = results.newBoard
         XCTAssertEqual(board1.aliveCellCount, 0)
+        XCTAssertEqual(results.events.count, 9)
     }
     
     func testIterateUnderPopulationWith0() {
@@ -157,7 +159,8 @@ class GameOfLifeTests: XCTestCase {
         let board0 = CellBoard(columns: 3, rows: 3, aliveCellsSeed: [Coordinate(column: 1, row: 1)])
         XCTAssertEqual(board0.aliveCellCount, 1)
         
-        let board1 = CellBoard(iterate: board0)
+        let results = board0.iterate()
+        let board1 = results.newBoard
         XCTAssertEqual(board1.aliveCellCount, 0)
     }
     
@@ -166,7 +169,8 @@ class GameOfLifeTests: XCTestCase {
         let board0 = CellBoard(columns: 3, rows: 3, aliveCellsSeed: [Coordinate(column: 1, row: 0), Coordinate(column: 1, row: 1)])
         XCTAssertEqual(board0.aliveCellCount, 2)
         
-        let board1 = CellBoard(iterate: board0)
+        let results = board0.iterate()
+        let board1 = results.newBoard
         XCTAssertEqual(board1.aliveCellCount, 0)
     }
     
@@ -175,7 +179,8 @@ class GameOfLifeTests: XCTestCase {
         let board0 = CellBoard(columns: 3, rows: 3, aliveCellsSeed: [Coordinate(column: 1, row: 0), Coordinate(column: 1, row: 2), Coordinate(column: 1, row: 1)])
         XCTAssertEqual(board0.aliveCellCount, 3)
         
-        let board1 = CellBoard(iterate: board0)
+        let results = board0.iterate()
+        let board1 = results.newBoard
         XCTAssertTrue(board1.cells[Coordinate(column: 1, row: 1)] ?? false)
     }
     
@@ -184,7 +189,8 @@ class GameOfLifeTests: XCTestCase {
         let board0 = CellBoard(columns: 3, rows: 3, aliveCellsSeed: [Coordinate(column: 1, row: 0), Coordinate(column: 1, row: 2), Coordinate(column: 1, row: 1), Coordinate(column: 2, row: 0)])
         XCTAssertEqual(board0.aliveCellCount, 4)
         
-        let board1 = CellBoard(iterate: board0)
+        let results = board0.iterate()
+        let board1 = results.newBoard
         XCTAssertTrue(board1.cells[Coordinate(column: 1, row: 1)] ?? false)
     }
     
@@ -193,7 +199,8 @@ class GameOfLifeTests: XCTestCase {
         let board0 = CellBoard(columns: 3, rows: 3, aliveCellsSeed: [Coordinate(column: 1, row: 0), Coordinate(column: 1, row: 2), Coordinate(column: 1, row: 1), Coordinate(column: 2, row: 0), Coordinate(column: 0, row: 0)])
         XCTAssertEqual(board0.aliveCellCount, 5)
         
-        let board1 = CellBoard(iterate: board0)
+        let results = board0.iterate()
+        let board1 = results.newBoard
         XCTAssertFalse(board1.cells[Coordinate(column: 1, row: 1)] ?? true)
     }
 }

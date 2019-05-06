@@ -11,6 +11,7 @@ import Foundation
 struct Game {
     
     private(set) var iterations = [CellBoard]()
+    private(set) var events = [[IterationEvent]]()
     
     init(board: CellBoard? = nil) {
         
@@ -29,8 +30,13 @@ struct Game {
         
         if let board = iterations.last {
         
-            let newBoard = CellBoard(iterate: board)
+            let results = board.iterate()
+            
+            let newBoard = results.newBoard
             iterations.append(newBoard)
+            
+            let newEvents = results.events
+            events.append(newEvents)
             
             return true
         }
