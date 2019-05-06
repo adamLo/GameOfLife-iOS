@@ -11,6 +11,10 @@ import Foundation
 struct Coordinate: Hashable {
     let column: Int
     let row: Int
+    
+    var description: String {
+        return "[\(column), \(row)]"
+    }
 }
 
 enum IterationEvent {
@@ -19,6 +23,30 @@ enum IterationEvent {
     case survivial(aliveNeighborsCount: Int)
     case deathByOverpopulation(aliveNeighborsCount: Int)
     case reproduction
+}
+
+typealias CellEvents = [Coordinate: IterationEvent]
+
+extension CellEvents {
+    
+    var description: String {
+        var desc = ""
+        for cellEvent in self {
+            
+            var eventDescription = ""
+            switch cellEvent.value {
+            case .dead: eventDescription = "Dead cell"
+            case .deathByUnderpopulation(let count): eventDescription = "Died of underpopultaion (\(count)"
+            case .survivial(let count): eventDescription = "Survived with \(count) alive neighbors"
+            case .deathByOverpopulation(let count): eventDescription = "Died of overpopulation \(count)"
+            case .reproduction: eventDescription = "Reproduction"
+            }
+            
+            desc = "\(desc)\(desc.isEmpty ? "" : "\n")\(cellEvent.key.description): \(eventDescription)"
+        }
+        
+        return desc
+    }
 }
 
 typealias Cells = [Coordinate : Bool]
@@ -52,17 +80,17 @@ struct CellBoard {
         }
     }
     
-    func iterate() -> (newBoard: CellBoard, events: [IterationEvent]) {
+    func iterate() -> (newBoard: CellBoard, events: CellEvents) {
         
         var board = CellBoard(columns: numberOfColumns, rows: numberOfRows)
-        var events = [IterationEvent]()
+        var events = CellEvents()
         
         for column in 0..<numberOfColumns {
             for row in 0..<numberOfRows {
                 let coordinate = Coordinate(column: column, row: row)
                 let results = toggle(at: coordinate)
                 board.cells[coordinate] = results.newStatus
-                events.append(results.event)
+                events[coordinate] = results.event
             }
         }
         
@@ -93,33 +121,7 @@ struct CellBoard {
         
         return (isAlive, event)
     }
-    
-//    init(iterate board: CellBoard) {
-//
-//        numberOfColumns = board.numberOfColumns
-//        numberOfRows = board.numberOfRows
-//
-//        for cell in board.cells {
-//
-//            let coordinate = cell.key
-//            var isAlive = cell.value
-//
-//            let aliveNeighborsCount = board.aliveNeigbors(of: coordinate)
-//
-//            if isAlive && aliveNeighborsCount < Rules.survivalMinCount {
-//                isAlive = false // Underpopulation
-//            }
-//            else if isAlive && aliveNeighborsCount > Rules.survivalMaxCount {
-//                isAlive = false // Overpopiulation
-//            }
-//            else if !isAlive && aliveNeighborsCount == Rules.reproductionCount {
-//                isAlive = true // Reproduction
-//            }
-//
-//            cells[coordinate] = isAlive
-//        }
-//    }
-    
+        
     mutating func reset() {
         for row in 0..<numberOfRows {
             for column in 0..<numberOfColumns {
@@ -190,4 +192,5 @@ struct CellBoard {
         
         return desc
     }
+    
 }

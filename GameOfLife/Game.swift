@@ -11,7 +11,7 @@ import Foundation
 struct Game {
     
     private(set) var iterations = [CellBoard]()
-    private(set) var events = [[IterationEvent]]()
+    private(set) var events = [CellEvents]()
     
     init(board: CellBoard? = nil) {
         

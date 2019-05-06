@@ -38,6 +38,11 @@ class ViewController: UIViewController {
                 print("\(step). iteration")
             }
             print(board.description)
+            
+            if step > 0 && step < game.events.count {
+                print("Events:\n\(game.events[step].description)")
+            }
+            
             step += 1
         }
     }
