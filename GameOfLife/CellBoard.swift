@@ -20,7 +20,7 @@ struct Rules {
     static let survivalMinCount = 2 // Any living cell with at least this amount of live neighbors wil survive
     static let survivalMaxCount = 3 // Any living cell with maximum this amount of live neighbors will survive
     // Anyliving cell with more than survivalMaxCount live neighbors will die of overpopulation
-    static let reproductionCount   = 3 // Any dead cell with exactly this amount of liove neighbors will become live as reporoduction
+    static let reproductionCount   = 3 // Any dead cell with exactly this amount of live neighbors will become live as reporoduction
 }
 
 struct CellBoard {
