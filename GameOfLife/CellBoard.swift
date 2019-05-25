@@ -8,7 +8,12 @@
 
 import Foundation
 
-struct Coordinate: Hashable {
+struct Coordinate: Hashable, Equatable {
+    
+    static func == (lhs: Coordinate, rhs: Coordinate) -> Bool {
+        return lhs.column == rhs.column && lhs.row == rhs.row
+    }
+    
     let column: Int
     let row: Int
     
