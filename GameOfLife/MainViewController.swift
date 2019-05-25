@@ -13,6 +13,9 @@ class MainViewController: UIViewController {
     private weak var boardViewController: BoardViewController!
     
     private var step = 0
+    private var stop = false
+    private var game: Game?
+    private var isPlaying = false
     
     // MARK: - Controller Lifecycle
     
@@ -35,6 +38,12 @@ class MainViewController: UIViewController {
     private func addStartButton() {
         
         let button = UIBarButtonItem(title: "Start", style: .plain, target: self, action: #selector(startButtonTouched(_:)))
+        navigationItem.rightBarButtonItem = button
+    }
+    
+    private func addStopButton() {
+        
+        let button = UIBarButtonItem(title: "Stop", style: .plain, target: self, action: #selector(stopButtonTouched(_:)))
         navigationItem.rightBarButtonItem = button
     }
 
@@ -67,8 +76,12 @@ class MainViewController: UIViewController {
             
             DispatchQueue.main.async {
                 
+                self.game = game
                 self.step = 0
-                self.display(game: game)
+                self.stop = false
+                self.isPlaying = false
+                
+                self.playback()
 
 //                print("Finished after \(step + 1) iterations")
 //                step = 0
@@ -91,17 +104,27 @@ class MainViewController: UIViewController {
         }
     }
     
-    private func display(game: Game) {
+    private func playback() {
         
-        if game.iterations.count > step {
+        if let _game = game, _game.iterations.count > step && !stop {
             
-            let board = game.iterations[step]
-            self.boardViewController.update(with: board)
+            if !isPlaying {
+                isPlaying = true
+                addStopButton()
+            }
+            
+            let board = _game.iterations[step]
+            boardViewController.update(with: board)
             step += 1
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.display(game: game)
+                self.playback()
             }
+        }
+        else {
+            isPlaying = false
+            stop = false
+            addStartButton()
         }
     }
     
@@ -109,6 +132,19 @@ class MainViewController: UIViewController {
     
     @objc func startButtonTouched(_ sender: Any) {
         
-        playXelionGame()
+        if let _game = game, step < _game.iterations.count {
+            
+            stop = false
+            playback()
+        }
+        else {
+            
+            playXelionGame()
+        }
+    }
+    
+    @objc func stopButtonTouched(_ sender: Any) {
+        
+        stop = true
     }
 }
