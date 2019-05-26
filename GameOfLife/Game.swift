@@ -56,6 +56,14 @@ struct Game {
             return true
         }
         
+        if iterations.count > 1 {
+            let last = iterations[iterations.count - 1]
+            let previous = iterations[iterations.count - 2]
+            if last == previous {
+                return true
+            }
+        }
+        
         return false
     }
 }

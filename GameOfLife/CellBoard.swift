@@ -64,7 +64,30 @@ struct Rules {
     static let reproductionCount   = 3 // Any dead cell with exactly this amount of live neighbors will become live as reporoduction
 }
 
-struct CellBoard {
+struct CellBoard: Equatable {
+    
+    static func == (lhs: CellBoard, rhs: CellBoard) -> Bool {
+        
+        if lhs.numberOfRows == rhs.numberOfRows && lhs.numberOfColumns == rhs.numberOfColumns {
+            
+            for column in 0..<lhs.numberOfColumns {
+                for row in 0..<lhs.numberOfRows{
+                    let coordinate = Coordinate(column: column, row: row)
+                    if let lValue = lhs.cells[coordinate], let rValue = rhs.cells[coordinate], rValue == lValue {
+                        continue
+                    }
+                    else {
+                        return false
+                    }
+                }
+            }
+        }
+        else {
+            return false
+        }
+        
+        return true
+    }
     
     private(set) var cells = Cells()
     

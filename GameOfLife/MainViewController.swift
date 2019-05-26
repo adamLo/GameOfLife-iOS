@@ -74,6 +74,8 @@ class MainViewController: UIViewController {
                 step += go ? 1 : 0
             }
             
+            print("Finished in \(step) iterations")
+            
             DispatchQueue.main.async {
                 
                 self.game = game
@@ -114,7 +116,7 @@ class MainViewController: UIViewController {
             }
             
             let board = _game.iterations[step]
-            boardViewController.update(with: board)
+            boardViewController.update(with: board, forceClear: true)
             step += 1
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
