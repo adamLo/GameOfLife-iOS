@@ -113,10 +113,10 @@
             </objects>
             <point key="canvasLocation" x="-619" y="784"/>
         </scene>
-        <!--View Controller-->
+        <!--Settings View Controller-->
         <scene sceneID="7Yh-dh-LRI">
             <objects>
-                <viewController id="dql-u7-ayh" sceneMemberID="viewController">
+                <viewController id="dql-u7-ayh" customClass="SettingsViewController" customModule="GameOfLife" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Wwd-cQ-dFp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="623"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -128,6 +128,9 @@
                                     <segment title="Xelion"/>
                                     <segment title="Random"/>
                                 </segments>
+                                <connections>
+                                    <action selector="typeSegmentedControlValueChanged:" destination="dql-u7-ayh" eventType="valueChanged" id="eHc-Y3-Uf3"/>
+                                </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yFc-En-Xsg">
                                 <rect key="frame" x="20" y="56" width="374" height="58"/>
@@ -158,13 +161,22 @@
                                     </label>
                                     <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minimumValue="3" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="4Nr-sE-Sf7">
                                         <rect key="frame" x="140" y="0.0" width="94" height="29"/>
+                                        <connections>
+                                            <action selector="stepperValueChanged:" destination="dql-u7-ayh" eventType="valueChanged" id="Mv0-qq-dit"/>
+                                        </connections>
                                     </stepper>
                                     <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="3" minimumValue="3" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="HXs-IF-wGT">
                                         <rect key="frame" x="140" y="29" width="94" height="29"/>
+                                        <connections>
+                                            <action selector="stepperValueChanged:" destination="dql-u7-ayh" eventType="valueChanged" id="w7b-Uu-l5p"/>
+                                        </connections>
                                     </stepper>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tHT-aQ-c9P">
                                         <rect key="frame" x="288" y="14" width="86" height="30"/>
                                         <state key="normal" title="Re-generate"/>
+                                        <connections>
+                                            <action selector="regenerateButtonTouched:" destination="dql-u7-ayh" eventType="touchUpInside" id="hko-gQ-sph"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -210,6 +222,16 @@
                             <constraint firstItem="yFc-En-Xsg" firstAttribute="top" secondItem="dol-AX-eVg" secondAttribute="bottom" constant="8" id="qMF-Yf-mUk"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="columnsStaticLabel" destination="TMy-YG-c1J" id="W71-WE-siZ"/>
+                        <outlet property="columnsStepper" destination="4Nr-sE-Sf7" id="wKd-Yw-SAk"/>
+                        <outlet property="columnsValueLabel" destination="8Ab-H7-TkW" id="4Eq-Bx-vm3"/>
+                        <outlet property="regenerateButton" destination="tHT-aQ-c9P" id="JZK-0y-713"/>
+                        <outlet property="rowsStaticLabel" destination="89r-7r-YOx" id="rmB-pb-9Jm"/>
+                        <outlet property="rowsStepper" destination="HXs-IF-wGT" id="l0x-Wh-hVY"/>
+                        <outlet property="rowsValueLabel" destination="4bG-rT-TeJ" id="ndu-y6-1H6"/>
+                        <outlet property="typeSegmentedControl" destination="dol-AX-eVg" id="0X6-sr-DNp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MF6-8n-ot6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

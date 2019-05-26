@@ -19,6 +19,7 @@
 		1952ADA122802F8F00485291 /* GameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1952ADA022802F8F00485291 /* GameTests.swift */; };
 		19B3D04D22995C7E0083A2C7 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B3D04C22995C7E0083A2C7 /* MainViewController.swift */; };
 		19B3D04F22995DCF0083A2C7 /* BoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B3D04E22995DCF0083A2C7 /* BoardViewController.swift */; };
+		19B3D051229B06780083A2C7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B3D050229B06780083A2C7 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		1952ADA022802F8F00485291 /* GameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTests.swift; sourceTree = "<group>"; };
 		19B3D04C22995C7E0083A2C7 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		19B3D04E22995DCF0083A2C7 /* BoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewController.swift; sourceTree = "<group>"; };
+		19B3D050229B06780083A2C7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 				190C5598227DBBFF00D903D7 /* Main.storyboard */,
 				19B3D04C22995C7E0083A2C7 /* MainViewController.swift */,
 				19B3D04E22995DCF0083A2C7 /* BoardViewController.swift */,
+				19B3D050229B06780083A2C7 /* SettingsViewController.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 				190C55BA227DC1FB00D903D7 /* Game.swift in Sources */,
 				19B3D04D22995C7E0083A2C7 /* MainViewController.swift in Sources */,
 				19B3D04F22995DCF0083A2C7 /* BoardViewController.swift in Sources */,
+				19B3D051229B06780083A2C7 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
