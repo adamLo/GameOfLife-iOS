@@ -95,6 +95,7 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Itc-JR-OvH">
                                 <rect key="frame" x="0.0" y="0.0" width="374" height="504"/>
+                                <gestureRecognizers/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -104,6 +105,7 @@
                             <constraint firstAttribute="trailing" secondItem="Itc-JR-OvH" secondAttribute="trailing" id="dxy-dJ-pbZ"/>
                             <constraint firstItem="Itc-JR-OvH" firstAttribute="top" secondItem="Z7S-0T-edY" secondAttribute="top" id="fAB-1P-md0"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="Z2i-RK-KXm"/>
                     </view>
                     <connections>
                         <outlet property="boardScrollView" destination="Itc-JR-OvH" id="gwU-j5-eLI"/>
@@ -221,6 +223,7 @@
                             <constraint firstItem="dol-AX-eVg" firstAttribute="leading" secondItem="Wwd-cQ-dFp" secondAttribute="leadingMargin" id="ph4-aF-6Ny"/>
                             <constraint firstItem="yFc-En-Xsg" firstAttribute="top" secondItem="dol-AX-eVg" secondAttribute="bottom" constant="8" id="qMF-Yf-mUk"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="1Nj-m1-TF5"/>
                     </view>
                     <connections>
                         <outlet property="columnsStaticLabel" destination="TMy-YG-c1J" id="W71-WE-siZ"/>

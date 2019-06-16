@@ -8,28 +8,38 @@
 
 import UIKit
 
-class BoardViewController: UIViewController {
+class BoardViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var boardScrollView: UIScrollView!
     
     public static let aliveColor = UIColor.red
     public static let deadColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
     
-    private struct CellWrapper {
+    private class CellWrapper {
+        
         let coordinate: Coordinate
         weak var view: UIView!
         var isAlive = false
         
-        mutating func update(isAlive: Bool) {
+        func update(isAlive: Bool) {
             if view != nil {
                 view.backgroundColor = isAlive ? BoardViewController.aliveColor : BoardViewController.deadColor
                 self.isAlive = isAlive
             }
         }
+        
+        init(coordinate: Coordinate, view: UIView, isAlive: Bool) {
+            self.coordinate = coordinate
+            self.isAlive = isAlive
+            self.view = view
+        }
     }
     
     private weak var holderView: UIView!
     private var cells = [CellWrapper]()
+    
+    private var editBoard = false
+    private var tapGestureRecognizers = [UITapGestureRecognizer]()
     
     // MARK: - Controller Lifecycle
     
@@ -44,6 +54,7 @@ class BoardViewController: UIViewController {
     private func create(board: CellBoard) {
         
         if holderView == nil {
+            
             let _view = UIView()
             boardScrollView.addSubview(_view)
             holderView = _view
@@ -70,7 +81,13 @@ class BoardViewController: UIViewController {
             view.layer.borderColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1.0).cgColor
             holderView.addSubview(view)
             
-            var wrapper = CellWrapper(coordinate: coordinate, view: view, isAlive: cell.value)
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(cellTapped(_:)))
+            tapGestureRecognizer.delegate = self
+            view.addGestureRecognizer(tapGestureRecognizer)
+            tapGestureRecognizers.append(tapGestureRecognizer)
+            view.isUserInteractionEnabled = true
+            
+            let wrapper = CellWrapper(coordinate: coordinate, view: view, isAlive: cell.value)
             wrapper.update(isAlive: cell.value)
             cells.append(wrapper)
         }
@@ -86,7 +103,7 @@ class BoardViewController: UIViewController {
         else {
         
             for cell in board.cells {
-                for var wrapper in cells {
+                for wrapper in cells {
                     if wrapper.coordinate == cell.key {
                         wrapper.update(isAlive: cell.value)
                     }
@@ -97,11 +114,60 @@ class BoardViewController: UIViewController {
     
     private func clearBoard() {
         
+        tapGestureRecognizers.removeAll()
+        
         for wrapper in cells {
             if wrapper.view != nil {
                 wrapper.view.removeFromSuperview()
             }
         }
         cells.removeAll()
+    }
+    
+    // MARK: - Create custom board
+    
+    func createBoard(numberOfColumns: Int, numberOfRows: Int, seed: [Coordinate]? = nil) {
+        
+        editBoard = true
+        
+        let board = CellBoard(columns: numberOfColumns, rows: numberOfRows, aliveCellsSeed: seed)
+        update(with: board, forceClear: true)
+    }
+    
+    var customBoard: CellBoard? {
+        
+        var seed = [Coordinate]()
+        var columns = 0
+        var rows = 0
+        
+        for wrapper in cells {
+            if wrapper.isAlive {
+                seed.append(wrapper.coordinate)
+            }
+            columns = max(wrapper.coordinate.column, columns)
+            rows = max(wrapper.coordinate.row, rows)
+        }
+        
+        return columns > 0 && rows > 0 ? CellBoard(columns: columns, rows: rows, aliveCellsSeed: seed) : nil
+    }
+    
+    // MARK: - Actions
+
+    @objc func cellTapped(_ sender: UITapGestureRecognizer) {
+
+        if editBoard, let cellView = sender.view {
+            for wrapper in cells {
+                if wrapper.view == cellView {
+                    wrapper.update(isAlive: !wrapper.isAlive)
+                    return
+                }
+            }
+        }
+    }
+    
+    // MARK: - Gesture Recognizer
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

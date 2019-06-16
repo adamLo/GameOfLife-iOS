@@ -34,6 +34,7 @@ class SettingsViewController: UIViewController {
         setupUI()
         updateControlsState()
         updateColumnsAndRowsValues()
+        createBoard()
     }
     
     // MASK: - UI Customization
@@ -48,6 +49,9 @@ class SettingsViewController: UIViewController {
         typeSegmentedControl.setTitle(NSLocalizedString("Custom", comment: "Custom layout title"), forSegmentAt: 0)
         typeSegmentedControl.setTitle(NSLocalizedString("Xelion", comment: "Xelion layout title"), forSegmentAt: 1)
         typeSegmentedControl.setTitle(NSLocalizedString("Random", comment: "Random layout title"), forSegmentAt: 2)
+        
+        columnsStepper.value = 4
+        rowsStepper.value = 4
     }
     
     private func updateColumnsAndRowsValues() {
@@ -66,6 +70,35 @@ class SettingsViewController: UIViewController {
         regenerateButton.isEnabled = typeSegmentedControl.selectedSegmentIndex == 2
     }
     
+    private func createBoard() {
+        
+        var seed = [Coordinate]()
+        var cols = Int(exactly: columnsStepper.value) ?? 0
+        var rows = Int(exactly: rowsStepper.value) ?? 0
+        if typeSegmentedControl.selectedSegmentIndex == 1 {
+            // Xelion
+            cols = 4
+            rows = 4
+            seed = [Coordinate(column: 2, row: 0), Coordinate(column: 0, row: 2), Coordinate(column: 1, row: 2), Coordinate(column: 1, row: 3), Coordinate(column: 3, row: 3)]
+        }
+        else if typeSegmentedControl.selectedSegmentIndex == 2 {
+            // Random
+            cols = Int.random(in: 3...7)
+            rows = cols
+            for _ in 0..<(Int(exactly: (rows * rows) / 2) ?? rows) {
+                let coordinate = Coordinate(column: Int.random(in: 0..<cols), row: Int.random(in: 0..<cols))
+                if !seed.contains(coordinate) {
+                    seed.append(coordinate)
+                }
+            }
+        }
+        
+        columnsStepper.value = Double(cols)
+        rowsStepper.value = Double(rows)
+        
+        boardViewController.createBoard(numberOfColumns: cols, numberOfRows: rows, seed: seed)
+    }
+    
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -80,13 +113,20 @@ class SettingsViewController: UIViewController {
     @IBAction func typeSegmentedControlValueChanged(_ sender: UISegmentedControl) {
         
         updateControlsState()
+        updateColumnsAndRowsValues()
+        createBoard()
     }
     
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
         
         updateColumnsAndRowsValues()
+        createBoard()
     }
     
     @IBAction func regenerateButtonTouched(_ sender: Any) {
+        
+        if typeSegmentedControl.selectedSegmentIndex == 2 {
+            createBoard()
+        }
     }
 }
