@@ -186,8 +186,17 @@ class MainViewController: UIViewController, UITabBarDelegate {
         
         if let _game = game, step < _game.iterations.count {
             
-            stop = false
-            playback()
+            let alert = UIAlertController(title: nil, message: NSLocalizedString("There's already one geame created. Would you like to continue or start a new one?", comment: "Play dialog message when game in progress"), preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Continue", comment: "Continue button title"), style: .default, handler: { (_) in
+            
+                self.stop = false
+                self.playback()
+            }))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("New game", comment: "New game button titke"), style: .destructive, handler: { (_) in
+                self.playGame()
+            }))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button title"), style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
         }
         else {
             
