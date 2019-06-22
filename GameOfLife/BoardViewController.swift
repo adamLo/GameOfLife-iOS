@@ -71,6 +71,9 @@ class BoardViewController: UIViewController, UIGestureRecognizerDelegate {
         holderView.frame = holderFrame
         holderView.center = boardScrollView.center
         
+        boardScrollView.contentSize = holderFrame.size
+        boardScrollView.isScrollEnabled = true
+        
         for cell in board.cells {
             
             let coordinate = cell.key
@@ -148,7 +151,7 @@ class BoardViewController: UIViewController, UIGestureRecognizerDelegate {
             rows = max(wrapper.coordinate.row, rows)
         }
         
-        return columns > 0 && rows > 0 ? CellBoard(columns: columns, rows: rows, aliveCellsSeed: seed) : nil
+        return seed.count > 0 && columns > 0 && rows > 0 ? CellBoard(columns: columns + 1, rows: rows + 1, aliveCellsSeed: seed) : nil
     }
     
     // MARK: - Actions

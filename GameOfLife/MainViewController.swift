@@ -11,6 +11,7 @@ import UIKit
 class MainViewController: UIViewController, UITabBarDelegate {
 
     private weak var boardViewController: BoardViewController!
+    private weak var settingsViewController: SettingsViewController!
     
     @IBOutlet weak var playbackHolderView: UIView!
     @IBOutlet weak var settingsHolderView: UIView!
@@ -60,6 +61,9 @@ class MainViewController: UIViewController, UITabBarDelegate {
         
         if let controller = segue.destination as? BoardViewController {
             boardViewController = controller
+        }
+        else if let controller = segue.destination as? SettingsViewController {
+            settingsViewController = controller
         }
     }
 
@@ -137,6 +141,45 @@ class MainViewController: UIViewController, UITabBarDelegate {
         }
     }
     
+    private func playGame() {
+        
+        guard settingsViewController != nil, let board = settingsViewController.gameBoard else {
+            
+            let alert = UIAlertController(title: nil, message: NSLocalizedString("Please create a board!", comment: "Error message when board is not set up"), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "OK button title"), style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            
+            var game = Game(board: board)
+            var step = 0
+            let maxStep = 100
+            var go = true
+            while go && step < maxStep {
+                
+                go = game.iterate()
+                if go && game.isFinished {
+                    go = false
+                }
+                step += go ? 1 : 0
+            }
+            
+            print("Finished in \(step) iterations")
+            
+            DispatchQueue.main.async {
+                
+                self.game = game
+                self.step = 0
+                self.stop = false
+                self.isPlaying = false
+                
+                self.playback()
+            }
+        }
+    }
+    
     // MARK: - Actions
     
     @objc func startButtonTouched(_ sender: Any) {
@@ -148,7 +191,7 @@ class MainViewController: UIViewController, UITabBarDelegate {
         }
         else {
             
-            playXelionGame()
+            playGame()
         }
     }
     

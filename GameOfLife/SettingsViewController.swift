@@ -25,6 +25,10 @@ class SettingsViewController: UIViewController {
     
     private weak var boardViewController: BoardViewController!
     
+    var gameBoard: CellBoard? {
+        return boardViewController != nil ? boardViewController.customBoard : nil
+    }
+    
     // MARK: - Controller lifecycle
     
     override func viewDidLoad() {
