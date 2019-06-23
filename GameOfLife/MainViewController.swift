@@ -151,13 +151,22 @@ class MainViewController: UIViewController, UITabBarDelegate {
             return
         }
         
+        guard settingsViewController != nil, settingsViewController.iterations > 0 else {
+            
+            let alert = UIAlertController(title: nil, message: NSLocalizedString("Please set the maximum number of iterations", comment: "Error message when iterations count not set"), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "OK button title"), style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        let maxIterations = settingsViewController.iterations
+        
         DispatchQueue.global(qos: .userInitiated).async {
             
             var game = Game(board: board)
             var step = 0
-            let maxStep = 100
             var go = true
-            while go && step < maxStep {
+            while go && step < maxIterations {
                 
                 go = game.iterate()
                 if go && game.isFinished {

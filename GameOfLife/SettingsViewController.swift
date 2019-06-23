@@ -18,8 +18,12 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var columnsValueLabel: UILabel!
     @IBOutlet weak var rowsValueLabel: UILabel!
     
+    @IBOutlet weak var iterationsStaticLabel: UILabel!
+    @IBOutlet weak var iterationsValueLabel: UILabel!
+    
     @IBOutlet weak var columnsStepper: UIStepper!
     @IBOutlet weak var rowsStepper: UIStepper!
+    @IBOutlet weak var iterationsStepper: UIStepper!
     
     @IBOutlet weak var regenerateButton: UIButton!
     
@@ -28,6 +32,8 @@ class SettingsViewController: UIViewController {
     var gameBoard: CellBoard? {
         return boardViewController != nil ? boardViewController.customBoard : nil
     }
+    
+    var iterations: Int = 100
     
     // MARK: - Controller lifecycle
     
@@ -47,6 +53,7 @@ class SettingsViewController: UIViewController {
         
         columnsStaticLabel.text = NSLocalizedString("Columns:", comment: "Number of columns title")
         rowsStaticLabel.text = NSLocalizedString("Rows:", comment: "Number of rows title")
+        iterationsStaticLabel.text = NSLocalizedString("Iterations:", comment: "Number of iterations title")
         
         regenerateButton.setTitle(NSLocalizedString("Re-generate", comment: "Regenerate button title"), for: .normal)
         
@@ -55,16 +62,27 @@ class SettingsViewController: UIViewController {
         typeSegmentedControl.setTitle(NSLocalizedString("Random", comment: "Random layout title"), forSegmentAt: 2)
         
         columnsStepper.value = 4
+        columnsStepper.minimumValue = 3
+        columnsStepper.maximumValue = 100
+        
         rowsStepper.value = 4
+        rowsStepper.minimumValue = 3
+        rowsStepper.maximumValue = 100
+        
+        iterationsStepper.value = Double(iterations)
+        iterationsStepper.minimumValue = 1
+        iterationsStepper.maximumValue = 1000
     }
     
     private func updateColumnsAndRowsValues() {
         
         let cols = Int(exactly: columnsStepper.value) ?? 0
         let rows = Int(exactly: rowsStepper.value) ?? 0
+        iterations = Int(exactly: iterationsStepper.value) ?? 0
         
         columnsValueLabel.text = "\(cols)"
         rowsValueLabel.text = "\(rows)"
+        iterationsValueLabel.text = "\(iterations)"
     }
     
     private func updateControlsState() {
@@ -125,6 +143,11 @@ class SettingsViewController: UIViewController {
         
         updateColumnsAndRowsValues()
         createBoard()
+    }
+    
+    @IBAction func iterationsValueChanged(_ sender: UIStepper) {
+        
+        updateColumnsAndRowsValues()
     }
     
     @IBAction func regenerateButtonTouched(_ sender: Any) {
