@@ -33,6 +33,17 @@ class MainViewController: UIViewController, UITabBarDelegate {
         setupUI()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        if let items = mainTabBar.items, items.count > 1 {
+            
+            mainTabBar.selectedItem = items[1]
+            updateScreens()
+        }
+    }
+    
     // MARK: - UI Customization
     
     private func setupUI() {
@@ -192,6 +203,12 @@ class MainViewController: UIViewController, UITabBarDelegate {
     // MARK: - Actions
     
     @objc func startButtonTouched(_ sender: Any) {
+        
+        if mainTabBar.selectedItem?.tag ?? 0 != 0 {
+            
+            mainTabBar.selectedItem = mainTabBar.items?.first
+            updateScreens()
+        }
         
         if let _game = game, step < _game.iterations.count {
             
