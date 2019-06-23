@@ -65,7 +65,9 @@ class BoardViewController: UIViewController, UIGestureRecognizerDelegate {
             holderView.clipsToBounds = true
         }
         
-        let cellSize: CGFloat = min(max(UIScreen.main.bounds.size.width / CGFloat(max(board.numberOfColumns, 1)), UIScreen.main.bounds.size.width / 32), UIScreen.main.bounds.size.width / 8)
+//        let cellSize: CGFloat = min(max(UIScreen.main.bounds.size.width / CGFloat(max(board.numberOfColumns, 1)), UIScreen.main.bounds.size.width / 32), UIScreen.main.bounds.size.width / 8)
+        
+        let cellSize: CGFloat = min(max(UIScreen.main.bounds.size.width / CGFloat(max(board.numberOfColumns, 1)), 10.0), 40.0)
         
         let holderFrame = CGRect(x: 0, y: 0, width: cellSize * CGFloat(board.numberOfColumns), height: cellSize * CGFloat(board.numberOfRows))
         holderView.frame = holderFrame

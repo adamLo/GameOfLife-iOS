@@ -90,11 +90,11 @@
             <objects>
                 <viewController id="kng-DJ-gcb" customClass="BoardViewController" customModule="GameOfLife" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Z7S-0T-edY">
-                        <rect key="frame" x="0.0" y="0.0" width="374" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Itc-JR-OvH">
-                                <rect key="frame" x="0.0" y="0.0" width="374" height="504"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="504"/>
                                 <gestureRecognizers/>
                             </scrollView>
                         </subviews>
@@ -204,7 +204,7 @@
                                 </constraints>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MVK-6N-Tvj">
-                                <rect key="frame" x="20" y="119" width="374" height="504"/>
+                                <rect key="frame" x="0.0" y="119" width="414" height="504"/>
                                 <connections>
                                     <segue destination="kng-DJ-gcb" kind="embed" id="cnE-16-XV3"/>
                                 </connections>
@@ -213,17 +213,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="MVK-6N-Tvj" firstAttribute="top" secondItem="yFc-En-Xsg" secondAttribute="bottom" constant="5" id="2CK-Fx-fHb"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="MVK-6N-Tvj" secondAttribute="trailing" id="F0m-tr-p9v"/>
-                            <constraint firstItem="MVK-6N-Tvj" firstAttribute="leading" secondItem="Wwd-cQ-dFp" secondAttribute="leadingMargin" id="Iru-Sf-MpG"/>
+                            <constraint firstAttribute="trailing" secondItem="MVK-6N-Tvj" secondAttribute="trailing" id="Vru-3q-wqO"/>
                             <constraint firstItem="yFc-En-Xsg" firstAttribute="trailing" secondItem="dol-AX-eVg" secondAttribute="trailing" id="W3U-CT-C3m"/>
                             <constraint firstItem="MVK-6N-Tvj" firstAttribute="bottom" secondItem="Wwd-cQ-dFp" secondAttribute="bottomMargin" id="Xoe-OQ-y3B"/>
                             <constraint firstItem="dol-AX-eVg" firstAttribute="trailing" secondItem="Wwd-cQ-dFp" secondAttribute="trailingMargin" id="awj-qy-cWV"/>
+                            <constraint firstItem="MVK-6N-Tvj" firstAttribute="leading" secondItem="Wwd-cQ-dFp" secondAttribute="leading" id="cUM-dj-KFx"/>
                             <constraint firstItem="dol-AX-eVg" firstAttribute="top" secondItem="Wwd-cQ-dFp" secondAttribute="topMargin" id="dVF-6P-bpw"/>
                             <constraint firstItem="yFc-En-Xsg" firstAttribute="leading" secondItem="dol-AX-eVg" secondAttribute="leading" id="msY-Vr-key"/>
                             <constraint firstItem="dol-AX-eVg" firstAttribute="leading" secondItem="Wwd-cQ-dFp" secondAttribute="leadingMargin" id="ph4-aF-6Ny"/>
                             <constraint firstItem="yFc-En-Xsg" firstAttribute="top" secondItem="dol-AX-eVg" secondAttribute="bottom" constant="8" id="qMF-Yf-mUk"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="1Nj-m1-TF5"/>
                     </view>
                     <connections>
                         <outlet property="columnsStaticLabel" destination="TMy-YG-c1J" id="W71-WE-siZ"/>
